@@ -137,6 +137,48 @@ fn chapter_problem3_5(mut a: Vec<i32>) -> i32 {
     cnt
 }
 
+#[allow(dead_code)]
+fn chapter_problem3_6(k: i32, n: i32) -> i32 {
+    let mut cnt = 0;
+    for x in 0..k + 1 {
+        for y in 0..k + 1 {
+            let z = n - (x + y);
+            if 0 <= z && z <= k {
+                cnt += 1;
+            }
+        }
+    }
+
+    cnt
+}
+
+#[allow(dead_code)]
+fn chapter_problem3_7(n: i64) -> i64 {
+    let s = n.to_string();
+
+    let mut sum = 0;
+    for bit in 0..1 << (s.len() - 1) {
+        let mut tmp: i64 = 0;
+
+        for i in 0..(s.len() - 1) {
+            tmp *= 10;
+            tmp += s.chars().nth(i).unwrap() as i64 - '0' as i64;
+
+            if (bit & (1 << i)) != 0 {
+                sum += tmp;
+
+                tmp = 0;
+            }
+        }
+
+        tmp *= 10;
+        tmp += s.chars().nth(s.len() - 1).unwrap() as i64 - '0' as i64;
+        sum += tmp;
+    }
+
+    sum
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -199,5 +241,17 @@ mod tests {
     fn test_chapter_problem3_5() {
         assert_eq!(chapter_problem3_5(vec![8, 12, 24, 32]), 2);
         assert_eq!(chapter_problem3_5(vec![4, 3, 12, 11, 2]), 0);
+    }
+
+    #[test]
+    fn test_chapter_problem3_6() {
+        assert_eq!(chapter_problem3_6(2, 2), 6);
+        assert_eq!(chapter_problem3_6(5, 15), 1);
+    }
+
+    #[test]
+    fn test_chapter_problem3_7() {
+        assert_eq!(chapter_problem3_7(125), 176);
+        assert_eq!(chapter_problem3_7(9999999999), 12656242944);
     }
 }
